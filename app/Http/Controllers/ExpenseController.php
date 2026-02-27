@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,5 +34,17 @@ class ExpenseController extends Controller
                 "error" => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function update(Request $request, Expense $id)
+    {
+        
+    }
+
+    public function destroy($id)
+    {
+        $expense = Expense::where("user_id", Auth::id())->findOrFail($id);
+        $expense->delete();
+        return response()->json(["message" => "Expense deleted successfully!."]);
     }
 }
