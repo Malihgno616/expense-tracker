@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -36,9 +37,32 @@ class ExpenseController extends Controller
         }
     }
 
-    public function update(Request $request, Expense $id)
+    public function update(Request $request, $id)
     {
+        $validated = $request->validate([
+            'category' => 'required|string|',
+            'amount' => 'required|numeric',
+            'description' => 'nullable|string',
+            'date' => 'required|date',
+        ]);
         
+        try {
+            
+            $expense = Expense::where("user_id", Auth::id())->findOrFail($id);
+            
+            $expense->update($validated);
+
+            return response()->json([
+                "message" => "Expense updated successfully!",
+                "data" => $expense 
+            ]);
+
+        } catch(\Exception $e) {
+            return response()->json([
+                "message" => "Error to update the expense",
+                "error" => $e->getMessage()
+            ]);
+        }
     }
 
     public function destroy($id)

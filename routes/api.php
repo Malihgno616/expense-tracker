@@ -10,8 +10,8 @@ Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
-    // Route::get('/expense', [ExpenseController::class, 'index']);
+    Route::get('/expense', [ExpenseController::class, 'index']);
     Route::post('/expense', [ExpenseController::class, 'store']);
-    // Route::put('/expense/{id}', [ExpenseController::class, 'update']);
+    Route::put('/expense/{id}', [ExpenseController::class, 'update']);
     Route::delete('/expense/{id}', [ExpenseController::class, 'destroy']);
 });
