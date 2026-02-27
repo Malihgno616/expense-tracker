@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 class ExpenseController extends Controller
 {
 
+    public function index(Request $request)
+    {
+        $query = Expense::where('user_id', Auth::id());
+       
+        $expenses = $query->get();
+        return response()->json($expenses);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
